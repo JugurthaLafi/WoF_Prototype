@@ -330,6 +330,28 @@ void GGame::Init()
 		// set values of object
 	pBackgroundInHouse->DeactivateGravity();
 	pBackgroundInHouse->SetInWorld(false);
+	// TODO!
+	////	 in house backgroundImage;
+	////	create the filePath array;
+	//char * inHouseBackgroundImages[8] = {
+	//	"Texture/Haus/Innen/B_Huette_Start_1280x720.png",
+	//	"Texture/Haus/Innen/B_Huette_1_Kerze_1280x720.png",
+	//	"Texture/Haus/Innen/B_Huette_2_Buch_1280x720.png",
+	//	"Texture/Haus/Innen/B_Huette_3_KerzeBuch_1280x720.png",
+	//	"Texture/Haus/Innen/B_Huette_4_Teddy_1280x720.png",
+	//	"Texture/Haus/Innen/B_Huette_5_TeddyKerze_1280x720.png",
+	//	"Texture/Haus/Innen/B_Huette_6_TeddyBuch_1280x720.png",
+	//	"Texture/Haus/Innen/B_Huette_7_AlleItems_1280x720.png"
+	//};
+
+	//// create instance of WorldImage;
+	//GWorldImage* pWorldImageSky = new GWorldImage(
+	//	inHouseBackgroundImages,
+	//	SVector2(0, 0),
+	//	SVector2(1280, 720),
+	//	pTheRenderer
+	//);
+	//pWorldImageSky->SetSrcRect(SRect(0, 0, 1280, 720));
 
 
 	//	The ground to walk on
