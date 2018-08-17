@@ -89,10 +89,19 @@
     <ClCompile Include="TextBubble.cpp">
       <Filter>Game\World\TextBubble</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="DIalogImage.cpp" />
     <ClCompile Include="HouseBackground.cpp">
       <Filter>Game\World\Backgrounds</Filter>
     </ClCompile>
+=======
+    <ClCompile Include="HouseBackground.cpp">
+      <Filter>Game\World\Backgrounds</Filter>
+    </ClCompile>
+    <ClCompile Include="DIalogImage.cpp">
+      <Filter>Game\World\TextBubble</Filter>
+    </ClCompile>
+>>>>>>> upstream/develop
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Vector2.h">
@@ -243,10 +252,19 @@
     <ClInclude Include="TextBubble.h">
       <Filter>Game\World\TextBubble</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="DIalogImage.h" />
     <ClInclude Include="HouseBackground.h">
       <Filter>Game\World\Backgrounds</Filter>
     </ClInclude>
+=======
+    <ClInclude Include="HouseBackground.h">
+      <Filter>Game\World\Backgrounds</Filter>
+    </ClInclude>
+    <ClInclude Include="DIalogImage.h">
+      <Filter>Game\World\TextBubble</Filter>
+    </ClInclude>
+>>>>>>> upstream/develop
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">

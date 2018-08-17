@@ -163,6 +163,19 @@ void CMoveObject::Update(float _deltaTime)
 
 						continue;
 					}
+					// It is NPC and in reach
+<<<<<<< HEAD
+					if (((CTexturedObject*)pObj)->GetColType() == ECollisionType::NPC &&
+						CPhysic::RectRectCollision(nextRect, ((CTexturedObject*)pObj)->GetRect()))
+=======
+					else if (((CTexturedObject*)pObj)->GetColType() == ECollisionType::NPC && CPhysic::RectRectCollision(nextRect, ((CTexturedObject*)pObj)->GetRect()))
+>>>>>>> upstream/develop
+					{
+						//LOG_MESSAGE("NPC found.", "");
+						player->SetNPC((GNpc*)pObj);
+
+						continue;
+					}
 					else
 					{
 						if (((CTexturedObject*)pObj)->GetColType() == ECollisionType::NONE)
@@ -176,33 +189,6 @@ void CMoveObject::Update(float _deltaTime)
 						else
 						{
 							// must be of WALL or MOVE
-							// set moveable by checking collision
-							moveable = !CPhysic::RectRectCollision(nextRect, ((CTexturedObject*)pObj)->GetRect());
-
-						}
-					}
-					// It is NPC and in reach
-					if (((CTexturedObject*)pObj)->GetColType() == ECollisionType::NPC &&
-						CPhysic::RectRectCollision(nextRect, ((CTexturedObject*)pObj)->GetRect()))
-					{
-						//LOG_MESSAGE("NPC found.", "");
-						player->SetNPC((GNpc*)pObj);
-
-						continue;
-					}
-					else
-					{
-						if (((CTexturedObject*)pObj)->GetColType() == ECollisionType::NPC)
-						{
-							continue;
-						}
-						else if (((CTexturedObject*)pObj)->GetColType() == ECollisionType::NONE)
-						{
-							continue;
-						}
-						else
-						{
-
 							// set moveable by checking collision
 							moveable = !CPhysic::RectRectCollision(nextRect, ((CTexturedObject*)pObj)->GetRect());
 
@@ -257,6 +243,9 @@ void CMoveObject::Update(float _deltaTime)
 		if (((CTexturedObject*)pObj)->GetColType() == ECollisionType::NONE)
 			continue;
 
+		if (((CTexturedObject*)pObj)->GetColType() >= ECollisionType::ITEM)
+			continue;
+
 		// set moveable by checking collision
 		moveable = !CPhysic::RectRectCollision(nextRect, ((CTexturedObject*)pObj)->GetRect());
 
@@ -277,6 +266,9 @@ void CMoveObject::Update(float _deltaTime)
 
 			// if collision type none
 			if (((CTexturedObject*)pObj)->GetColType() == ECollisionType::NONE)
+				continue;
+
+			if (((CTexturedObject*)pObj)->GetColType() >= ECollisionType::ITEM)
 				continue;
 
 			// set moveable by checking collision

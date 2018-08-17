@@ -15,6 +15,9 @@
 #include "HouseScene.h"
 #include "Npc.h"
 #include "MainScene.h"
+#include "HouseBackground.h"
+#include "EnumItemState.h"
+
 #pragma endregion
 
 
@@ -26,49 +29,142 @@ void GPlayer::Update(float _deltaTime)
 {
 	// ToDo!
 	//// pick up item
+
+
+	if (m_isInHouse)
+	{
+		// INPUT "1"
+		if (CInput::GetKeyDown(SDL_SCANCODE_1))
+		{
+			// is item in inventory?
+			if (CheckForItem(EEmotionType::FURY))
+			{
+				// yes -> 
+				//	set item state in background;
+				m_ptheHouseBackground->GetFuryItem()->SetItemState(EItemState::USED);
+				//	remove from inventory;
+				m_inventory->RemoveObjectItem(EEmotionType::FURY);
+
+				m_pPickupItemSound->Play();
+			}
+		}
+		// INPUT "2"
+		if (CInput::GetKeyDown(SDL_SCANCODE_2))
+		{
+			// is item in inventory?
+			if (CheckForItem(EEmotionType::FEAR))
+			{
+				// yes -> 
+				//	set item state in background;
+				m_ptheHouseBackground->GetFearItem()->SetItemState(EItemState::USED);
+				//	remove from inventory;
+				m_inventory->RemoveObjectItem(EEmotionType::FEAR);
+
+				m_pPickupItemSound->Play();
+			}
+		}
+		// INPUT "3"
+		if (CInput::GetKeyDown(SDL_SCANCODE_3))
+		{
+			// is item in inventory?
+			if (CheckForItem(EEmotionType::SAD))
+			{
+				// yes -> 
+				//	set item state in background;
+				m_ptheHouseBackground->GetSadnessItem()->SetItemState(EItemState::USED);
+				//	remove from inventory;
+				m_inventory->RemoveObjectItem(EEmotionType::SAD);
+
+				m_pPickupItemSound->Play();
+			}
+		}
+
+	}
+
 	if (CInput::GetKeyDown(SDL_SCANCODE_S) && m_foundItem == true)
 	{
-		LOG_MESSAGE("Grab Item ", std::to_string(m_foundItem));
-		m_inventory->RemoveObjectItem(m_inventoryItem->GetItemType());
-		m_inventory->AddObject(m_inventoryItem->GetItemType());
-		CEngine::Get()->GetCM()->RemoveObject(m_inventoryItem);
 
-		// play pickup item sound
-		m_pPickupItemSound->Play();
-
-		// ToDo:
-		// Push Item into Inventory;
-		// Put item into RemoveObject-List;
-		// Put item into Inventory-List;
-		// reset value;
-		m_foundItem = false;
-		//CEngine::Get()->GetCM()->AddUIObject()
-
-
-		/*if (m_inventoryItem->GetItemType() == EEmotionType::FURY)
+		if (m_inventoryItem->GetItemState() == EItemState::USED ||
+			m_inventoryItem->GetItemState() == EItemState::ACTIVE)
 		{
 
-		}*/
+			LOG_MESSAGE("Grab Item ", std::to_string(m_foundItem));
+			m_inventory->RemoveObjectItem(m_inventoryItem->GetItemType());
+			m_inventory->AddObject(m_inventoryItem->GetItemType());
+
+			// delete item from list
+			// CEngine::Get()->GetCM()->RemoveObject(m_inventoryItem);
+			// make item invisible
+			m_inventoryItem->SetItemState(EItemState::FOUND);
+
+			// play pickup item sound
+			m_pPickupItemSound->Play();
+
+			// ToDo:
+			// Push Item into Inventory;
+			// Put item into RemoveObject-List;
+			// Put item into Inventory-List;
+			// reset value;
+			m_foundItem = false;
+			//CEngine::Get()->GetCM()->AddUIObject()
+
+
+			/*if (m_inventoryItem->GetItemType() == EEmotionType::FURY)
+			{
+
+			}*/
+		}
 
 	}
 
 	//TODO (m2vh) NPC state!
 	// talk to NPC
-	if (CInput::GetKeyDown(SDL_SCANCODE_E) && m_npcCollision == true)
+	if (m_npcCollision == true)
 	{
-		LOG_MESSAGE(
-			"Talk to NPC ", 
-			std::to_string((int)(GetNPC()->GetNPCType()))
-		);
+		// CLOSE the dialog
+		if (CInput::GetKeyDown(SDL_SCANCODE_E))
+		{
+			// player visits the first time
+			if (m_pNPC->GetNPCState() == ENPCState::WAITING)
+			{
+				// activate item
+				m_pNPC->GetItem()->SetItemState(EItemState::ACTIVE);
+				// return;
+			}
+			
+			// close dialog
+			m_pNPC->GetDialog()->SetRenderDisplay(false);
+			m_pNPC->SetNPCState(
+				(ENPCState)(m_pNPC->GetNPCState() << 1)
+			);
 
-		// ToDo:
-		// Player stops while talking to NPC;
-		m_isMovable = false;
-		// // open TextDialog
-		// create textobject;
-		// put in UIList;
+			// make player moce again; m_isMovable = true;
+			m_canMove = true;
+
+
+		}
+
+		// OPEN dialog
+		if (CInput::GetKeyDown(SDL_SCANCODE_W))
+		{
+			//LOG_MESSAGE(
+			//	"Talk to NPC ",
+			//	std::to_string((int)(GetNPC()->GetNPCType()))
+			//);
+
+			// show the dialog
+			m_pNPC->GetDialog()->SetRenderDisplay(true);
+
+			// Player stops while talking to NPC;
+			// m_isMovable = false;
+			m_canMove = false;
+
+		}
+
 
 	}
+
+
 	// // ToDo (m2vh) close TextDialog
 	// stop talking to NPC
 	// if Key == "R" &&  
@@ -145,7 +241,7 @@ void GPlayer::Update(float _deltaTime)
 
 
 
-	if (m_isMovable)
+	if (m_isMovable && m_canMove)
 	{
 #pragma region movement
 		// moveable default true
@@ -234,6 +330,11 @@ void GPlayer::Update(float _deltaTime)
 				if (((CTexturedObject*)pObj)->GetColType() == ECollisionType::NONE)
 					continue;
 
+				if (((CTexturedObject*)pObj)->GetColType() >= ECollisionType::ITEM)
+				{
+					continue;
+				}
+
 				// set moveable by checking collision
 				moveable = !CPhysic::RectRectCollision(nextRect, ((CTexturedObject*)pObj)->GetRect());
 
@@ -259,6 +360,10 @@ void GPlayer::Update(float _deltaTime)
 					// if collision type none
 					if (((CTexturedObject*)pObj)->GetColType() == ECollisionType::NONE)
 						continue;
+
+					if (((CTexturedObject*)pObj)->GetColType() >= ECollisionType::ITEM)
+						continue;
+
 
 					// set moveable by checking collision
 					moveable = !CPhysic::RectRectCollision(nextRect, ((CTexturedObject*)pObj)->GetRect());
@@ -349,4 +454,18 @@ void GPlayer::SetNPC(GNpc * _npc)
 		m_pNPC = _npc;
 	}
 }
+
+bool GPlayer::CheckForItem(EEmotionType _type) {
+	bool isInInventory = false;
+	list<GInventoryItems*> liste = m_inventory->GetItemObjects();
+	for (GInventoryItems* _item : liste) {
+		if (_item->GetItemType() == _type)
+		{
+			isInInventory = true;
+		}
+	};
+
+	return isInInventory;
+}
+
 #pragma endregion

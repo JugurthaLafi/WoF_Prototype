@@ -49,8 +49,8 @@
 #define CAMERA_OFFSET_X (HOUSE_WIDTH +10 )
 #define CAMERA_OFFSET_Y 200
 
-#define DIALOG_POS_X 500
-#define DIALOG_POS_Y 300
+#define DIALOG_POS_X (500 - 250)
+#define DIALOG_POS_Y (300 - 165)
 #define DIALOG_TEXT_WIDTH 200
 #define DIALOG_TEXT_HEIGHT 100
 
@@ -60,12 +60,12 @@
 #pragma endregion
 
 #pragma region House Sceen Item positions
-#define HOUSE_ITEM_FURY_X 330
-#define HOUSE_ITEM_FURY_Y 250
-#define HOUSE_ITEM_FEAR_X 290
-#define HOUSE_ITEM_FEAR_Y 530
-#define HOUSE_ITEM_SADNESS_X 410
-#define HOUSE_ITEM_SADNESS_Y 730
+#define HOUSE_ITEM_FURY_X 230
+#define HOUSE_ITEM_FURY_Y 290
+#define HOUSE_ITEM_FEAR_X 530
+#define HOUSE_ITEM_FEAR_Y 250
+#define HOUSE_ITEM_SADNESS_X 640
+#define HOUSE_ITEM_SADNESS_Y 310
 
 
 #pragma endregion
