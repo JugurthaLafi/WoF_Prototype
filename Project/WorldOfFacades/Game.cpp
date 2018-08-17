@@ -327,13 +327,14 @@ void GGame::Init()
 		"Texture/Haus/Innen/B_Huette_Start_1280x720.png"
 	);
 
+	
 		// set values of object
 	pBackgroundInHouse->DeactivateGravity();
 	pBackgroundInHouse->SetInWorld(false);
 	// TODO!
 	////	 in house backgroundImage;
 	////	create the filePath array;
-	//char * inHouseBackgroundImages[8] = {
+	// char * inHouseBackgroundImages[8] = {
 	//	"Texture/Haus/Innen/B_Huette_Start_1280x720.png",
 	//	"Texture/Haus/Innen/B_Huette_1_Kerze_1280x720.png",
 	//	"Texture/Haus/Innen/B_Huette_2_Buch_1280x720.png",
