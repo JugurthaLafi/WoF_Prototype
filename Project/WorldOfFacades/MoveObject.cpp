@@ -182,7 +182,8 @@ void CMoveObject::Update(float _deltaTime)
 						}
 					}
 					// It is NPC and in reach
-					if (((CTexturedObject*)pObj)->GetColType() == ECollisionType::NPC && CPhysic::RectRectCollision(nextRect, ((CTexturedObject*)pObj)->GetRect()))
+					if (((CTexturedObject*)pObj)->GetColType() == ECollisionType::NPC &&
+						CPhysic::RectRectCollision(nextRect, ((CTexturedObject*)pObj)->GetRect()))
 					{
 						//LOG_MESSAGE("NPC found.", "");
 						player->SetNPC((GNpc*)pObj);
